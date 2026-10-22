@@ -1,0 +1,142 @@
+"use client";
+
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type KeyboardEvent,
+  type ReactNode,
+} from "react";
+import Link from "next/link";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
+interface Props {
+  title: string;
+  viewAllHref: string;
+  /** <li> items. Each should set its own width, e.g. via CAROUSEL_ITEM_CLASS. */
+  children: ReactNode;
+}
+
+/** Shared item sizing: ~1.5 cards on phones, 2.5 on tablets, 4 on desktop. */
+export const CAROUSEL_ITEM_CLASS =
+  "shrink-0 snap-start basis-[66%] sm:basis-[42%] lg:basis-[calc((100%-3rem)/4)]";
+
+/**
+ * Horizontally scrolling product row. Touch: native swipe with scroll-snap.
+ * Keyboard: focus the row and use Left/Right/Home/End, or use the Previous/Next buttons.
+ * Cards are server-rendered and passed in as children, so this stays a tiny client component.
+ */
+export default function ProductCarousel({
+  title,
+  viewAllHref,
+  children,
+}: Props) {
+  const headingId = useId();
+  const trackRef = useRef<HTMLUListElement>(null);
+  const [canPrev, setCanPrev] = useState(false);
+  const [canNext, setCanNext] = useState(false);
+
+  const update = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    setCanPrev(el.scrollLeft > 4);
+    setCanNext(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+  }, []);
+
+  useEffect(() => {
+    update();
+    const el = trackRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [update]);
+
+  const behavior = (): ScrollBehavior =>
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ? "auto"
+      : "smooth";
+
+  const page = (direction: 1 | -1) => {
+    const el = trackRef.current;
+    if (el)
+      el.scrollBy({
+        left: direction * el.clientWidth * 0.9,
+        behavior: behavior(),
+      });
+  };
+
+  const onKeyDown = (e: KeyboardEvent<HTMLUListElement>) => {
+    const el = trackRef.current;
+    if (!el) return;
+    if (e.key === "ArrowRight") page(1);
+    else if (e.key === "ArrowLeft") page(-1);
+    else if (e.key === "Home") el.scrollTo({ left: 0, behavior: behavior() });
+    else if (e.key === "End")
+      el.scrollTo({ left: el.scrollWidth, behavior: behavior() });
+    else return;
+    e.preventDefault();
+  };
+
+  // Frosted-glass arrows centred on the product images. At rest they are soft (blurred, faded);
+  // they sharpen when the pointer is over the carousel or when an arrow/the row has keyboard focus.
+  const arrowBase =
+    "absolute top-[44%] z-10 hidden h-12 w-12 -translate-y-1/2 place-items-center rounded-full border border-white/60 bg-white/70 text-neutral-900 shadow-lg backdrop-blur-md transition duration-300 motion-reduce:transition-none md:grid";
+  const arrowIdle =
+    "opacity-60 blur-[2px] group-hover:opacity-100 group-hover:blur-0 group-focus-within:opacity-100 group-focus-within:blur-0";
+  const arrowHidden = "pointer-events-none opacity-0";
+
+  return (
+    <section
+      aria-labelledby={headingId}
+      aria-roledescription="carousel"
+      className="mt-24"
+    >
+      <div className="mb-6 flex items-baseline justify-between gap-4">
+        <h2 id={headingId} className="text-lg font-medium tracking-tight">
+          {title}
+        </h2>
+        <Link
+          href={viewAllHref}
+          className="text-sm underline underline-offset-4"
+        >
+          View all
+        </Link>
+      </div>
+
+      <div className="group relative">
+        <button
+          type="button"
+          onClick={() => page(-1)}
+          disabled={!canPrev}
+          aria-label={`Previous ${title}`}
+          className={`${arrowBase} left-3 lg:left-4 ${canPrev ? arrowIdle : arrowHidden}`}
+        >
+          <ChevronLeft size={22} strokeWidth={1.5} aria-hidden />
+        </button>
+        <button
+          type="button"
+          onClick={() => page(1)}
+          disabled={!canNext}
+          aria-label={`Next ${title}`}
+          className={`${arrowBase} right-3 lg:right-4 ${canNext ? arrowIdle : arrowHidden}`}
+        >
+          <ChevronRight size={22} strokeWidth={1.5} aria-hidden />
+        </button>
+
+        <ul
+          ref={trackRef}
+          tabIndex={0}
+          aria-label={`${title}, use left and right arrow keys to scroll`}
+          onScroll={update}
+          onKeyDown={onKeyDown}
+          className="flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-smooth [scrollbar-width:none] motion-reduce:scroll-auto [&::-webkit-scrollbar]:hidden"
+        >
+          {children}
+        </ul>
+      </div>
+    </section>
+  );
+}
