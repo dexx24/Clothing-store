@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { getCategories, getFeaturedProduct, getProducts } from "@/lib/products";
 import ProductCard from "@/components/ProductCard";
-import ProductCarousel, {
-  CAROUSEL_ITEM_CLASS,
-} from "@/components/ProductCarousel";
+import ProductCarousel from "@/components/ProductCarousel";
+import { CAROUSEL_ITEM_CLASS } from "@/components/carouselStyles";
 import ProductGrid from "@/components/ProductGrid";
 import { homeImages, placeholderImages } from "@/config/site";
 

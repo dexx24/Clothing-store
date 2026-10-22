@@ -19,10 +19,6 @@ interface Props {
   children: ReactNode;
 }
 
-/** Shared item sizing: ~1.5 cards on phones, 2.5 on tablets, 4 on desktop. */
-export const CAROUSEL_ITEM_CLASS =
-  "shrink-0 snap-start basis-[66%] sm:basis-[42%] lg:basis-[calc((100%-3rem)/4)]";
-
 /**
  * Horizontally scrolling product row. Touch: native swipe with scroll-snap.
  * Keyboard: focus the row and use Left/Right/Home/End, or use the Previous/Next buttons.
