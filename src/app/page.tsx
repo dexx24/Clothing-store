@@ -2,9 +2,9 @@ import Link from "next/link";
 import { getCategories, getFeaturedProduct, getProducts } from "@/lib/products";
 import ProductCard from "@/components/ProductCard";
 import ProductCarousel from "@/components/ProductCarousel";
-import { CAROUSEL_ITEM_CLASS } from "@/components/carouselStyles";
 import ProductGrid from "@/components/ProductGrid";
 import { homeImages, placeholderImages } from "@/config/site";
+import { CAROUSEL_ITEM_CLASS } from "@/lib/carousel";
 
 export const revalidate = 60;
 

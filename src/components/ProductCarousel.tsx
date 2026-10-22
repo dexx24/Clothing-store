@@ -10,12 +10,31 @@ import {
   type ReactNode,
 } from "react";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+
+// Inline chevrons (same paths as lucide's ChevronLeft/ChevronRight). Importing lucide-react icons in
+// this file made `next build` fail with "Could not find the module ... in the React Client Manifest".
+function Chevron({ direction }: { direction: "left" | "right" }) {
+  return (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d={direction === "left" ? "m15 18-6-6 6-6" : "m9 18 6-6-6-6"} />
+    </svg>
+  );
+}
 
 interface Props {
   title: string;
   viewAllHref: string;
-  /** <li> items. Each should set its own width, e.g. via CAROUSEL_ITEM_CLASS. */
+  /** <li> items. Each should set its own width, e.g. via CAROUSEL_ITEM_CLASS from '@/lib/carousel'. */
   children: ReactNode;
 }
 
@@ -79,9 +98,9 @@ export default function ProductCarousel({
   // Frosted-glass arrows centred on the product images. At rest they are soft (blurred, faded);
   // they sharpen when the pointer is over the carousel or when an arrow/the row has keyboard focus.
   const arrowBase =
-    "absolute top-[44%] z-10 hidden h-12 w-12 -translate-y-1/2 place-items-center rounded-full border border-white/60 bg-white/70 text-neutral-900 shadow-lg backdrop-blur-md transition duration-300 motion-reduce:transition-none md:grid";
+    "absolute top-[44%] z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-white/60 bg-white/80 text-neutral-900 shadow-lg backdrop-blur-md transition duration-300 motion-reduce:transition-none md:h-12 md:w-12";
   const arrowIdle =
-    "opacity-60 blur-[2px] group-hover:opacity-100 group-hover:blur-0 group-focus-within:opacity-100 group-focus-within:blur-0";
+    "opacity-80 blur-[1px] group-hover:opacity-100 group-hover:blur-none group-focus-within:opacity-100 group-focus-within:blur-none";
   const arrowHidden = "pointer-events-none opacity-0";
 
   return (
@@ -108,18 +127,18 @@ export default function ProductCarousel({
           onClick={() => page(-1)}
           disabled={!canPrev}
           aria-label={`Previous ${title}`}
-          className={`${arrowBase} left-3 lg:left-4 ${canPrev ? arrowIdle : arrowHidden}`}
+          className={`${arrowBase} left-2 md:left-3 lg:left-4 ${canPrev ? arrowIdle : arrowHidden}`}
         >
-          <ChevronLeft size={22} strokeWidth={1.5} aria-hidden />
+          <Chevron direction="left" />
         </button>
         <button
           type="button"
           onClick={() => page(1)}
           disabled={!canNext}
           aria-label={`Next ${title}`}
-          className={`${arrowBase} right-3 lg:right-4 ${canNext ? arrowIdle : arrowHidden}`}
+          className={`${arrowBase} right-2 md:right-3 lg:right-4 ${canNext ? arrowIdle : arrowHidden}`}
         >
-          <ChevronRight size={22} strokeWidth={1.5} aria-hidden />
+          <Chevron direction="right" />
         </button>
 
         <ul
