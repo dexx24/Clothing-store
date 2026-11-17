@@ -1,12 +1,20 @@
-'use client';
+"use client";
 
-import { useCallback, useState } from 'react';
-import { Instagram, Mail, MessageCircle, Music2, Phone, Plus, type LucideIcon } from 'lucide-react';
-import SlidePanel from './SlidePanel';
-import { siteConfig } from '@/config/site';
-import { getContactItems, type ContactItem } from '@/lib/contact';
+import { useCallback, useState } from "react";
+import {
+  Instagram,
+  Mail,
+  MessageCircle,
+  Music2,
+  Phone,
+  Plus,
+  type LucideIcon,
+} from "lucide-react";
+import SlidePanel from "./SlidePanel";
+import { siteConfig } from "@/config/site";
+import { getContactItems, type ContactItem } from "@/lib/contact";
 
-const ICONS: Record<ContactItem['key'], LucideIcon> = {
+const ICONS: Record<ContactItem["key"], LucideIcon> = {
   phone: Phone,
   email: Mail,
   whatsapp: MessageCircle,
@@ -33,23 +41,38 @@ export default function ContactPanel() {
         <span className="sr-only sm:not-sr-only">Contact us</span>
       </button>
 
-      <SlidePanel open={open} onClose={close} title="Contact us" side="right" size="wide">
+      <SlidePanel
+        open={open}
+        onClose={close}
+        title="Contact us"
+        side="right"
+        size="wide"
+      >
         <ul className="space-y-8">
           {items.map((item) => {
             const Icon = ICONS[item.key];
-            const hasHours = item.key === 'phone' || item.key === 'whatsapp';
+            const hasHours = item.key === "phone" || item.key === "whatsapp";
             return (
               <li key={item.key}>
                 <div className="flex items-center gap-3">
-                  <Icon size={18} strokeWidth={1.5} aria-hidden className="shrink-0" />
+                  <Icon
+                    size={18}
+                    strokeWidth={1.5}
+                    aria-hidden
+                    className="shrink-0"
+                  />
                   <span className="sr-only">{item.label}: </span>
                   {item.href ? (
                     <a
                       href={item.href}
-                      {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                      {...(item.external
+                        ? { target: "_blank", rel: "noopener noreferrer" }
+                        : {})}
                       className="break-all text-lg underline underline-offset-4 hover:text-neutral-500"
                     >
-                      {item.key === 'phone' || item.key === 'whatsapp' ? `${item.label} ${item.value}` : item.value}
+                      {item.key === "phone" || item.key === "whatsapp"
+                        ? `${item.label} ${item.value}`
+                        : item.value}
                     </a>
                   ) : (
                     <span className="break-all text-lg text-neutral-400">
@@ -68,6 +91,12 @@ export default function ContactPanel() {
             );
           })}
         </ul>
+
+        <p className="mt-12 border-t border-neutral-200 pt-6 text-sm leading-relaxed text-neutral-600">
+          Website designed and built by {siteConfig.builder.name}. Interested in
+          a site like this for your brand? Reach out using any of the contact
+          details above.
+        </p>
       </SlidePanel>
     </>
   );

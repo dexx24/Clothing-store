@@ -12,14 +12,14 @@ export const siteConfig = {
   name: 'Nove',
 
   contact: {
-    phone: 'REPLACE_PHONE_NUMBER', // e.g. '+234 800 000 0000'
-    email: 'REPLACE_EMAIL_ADDRESS', // e.g. 'hello@yourdomain.com'
-    whatsapp: 'REPLACE_WHATSAPP_NUMBER', // international format, e.g. '+234 800 000 0000'
+    phone: '+2349029955629', // e.g. '+234 800 000 0000'
+    email: 'adediyadavid@gmail.com', // e.g. 'hello@yourdomain.com'
+    whatsapp: '+2349029955629', // international format, e.g. '+234 800 000 0000'
   },
 
   social: {
-    instagram: 'REPLACE_INSTAGRAM_URL', // full URL, e.g. 'https://www.instagram.com/yourhandle'
-    tiktok: 'REPLACE_TIKTOK_URL', // full URL, e.g. 'https://www.tiktok.com/@yourhandle'
+    instagram: 'INSTAGRAM', // full URL, e.g. 'https://www.instagram.com/yourhandle'
+    tiktok: 'TIKTOK', // full URL, e.g. 'https://www.tiktok.com/@yourhandle'
   },
 
   availability: {
@@ -28,14 +28,23 @@ export const siteConfig = {
     timezone: 'WAT',
   },
 
+  // Who built the site. Shown in the FAQ and the Contact panel so visitors know who to ask about getting a site like this.
+  builder: { name: 'David' },
+
   // Optional sentence shown above the questions in the FAQ modal. Leave '' to hide it.
   faqIntro: '',
 
-  // Replace every question and answer below with your real FAQs. Add or remove items freely.
+  // Add your store's own questions (shipping, returns, sizing...) here with your real answers.
   faqs: [
-    { question: 'REPLACE_FAQ_QUESTION_1', answer: 'REPLACE_FAQ_ANSWER_1' },
-    { question: 'REPLACE_FAQ_QUESTION_2', answer: 'REPLACE_FAQ_ANSWER_2' },
-    { question: 'REPLACE_FAQ_QUESTION_3', answer: 'REPLACE_FAQ_ANSWER_3' },
+    {
+      question: 'Who built this website?',
+      answer: 'This website was designed and built by David.',
+    },
+    {
+      question: 'Interested in a website like this? How can I reach you?',
+      answer:
+        'Open the Contact us panel at the top of the page and reach David by phone, email, WhatsApp. Tell him about your brand and he will get back to you.',
+    },
   ],
 } as const;
 
@@ -56,10 +65,10 @@ export const homeImages = {
 
 /** Stock placeholders (picsum.photos). Delete or replace once you add your own photos. */
 export const placeholderImages = {
-  closing: 'https://images.pexels.com/photos/5698851/pexels-photo-5698851.jpeg',
+  closing: 'https://picsum.photos/seed/nove-closing/2400/1400',
   categories: {
-    tops: 'https://images.pexels.com/photos/6347888/pexels-photo-6347888.jpeg',
-    bottoms: 'https://images.pexels.com/photos/31842963/pexels-photo-31842963.jpeg',
+    tops: 'https://picsum.photos/seed/nove-tops/1200/800',
+    bottoms: 'https://picsum.photos/seed/nove-bottoms/1200/800',
   } as Record<string, string>,
 } as const;
 

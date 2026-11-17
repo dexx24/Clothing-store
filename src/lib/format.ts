@@ -1,3 +1,3 @@
-const usd = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+const naira = new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' });
 
-export const formatPrice = (cents: number) => usd.format(cents / 100);
+export const formatPrice = (cents: number) => naira.format(cents / 100);
