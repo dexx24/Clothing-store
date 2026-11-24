@@ -16,7 +16,11 @@ export default function Logo({
   const isHeader = location === "header";
 
   return (
-    <Link href="/" className={className}>
+    <Link
+      href="/"
+      aria-label="JK DressMe homepage"
+      className={`inline-flex items-center shrink-0 ${className}`}
+    >
       <Image
         src={isHeader ? HeaderLogo : FooterLogo}
         alt="Jk_DressMe"
@@ -31,7 +35,7 @@ export default function Logo({
         // Footer: fills its column up to a moderate maximum (320px, 384px, 448px).
         className={
           isHeader
-            ? "h-8 w-auto max-w-[28vw] object-contain sm:h-10 sm:max-w-none md:h-12 lg:h-14"
+            ? "h-11 w-auto max-w-[40vw] object-contain sm:h-12 sm:max-w-none md:h-14 lg:h-16"
             : "h-auto w-full max-w-xs sm:max-w-sm md:max-w-md"
         }
       />
