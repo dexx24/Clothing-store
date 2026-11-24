@@ -72,7 +72,7 @@ export default function Footer() {
           </nav>
         </div>
 
-        <Logo className="mt-20 block text-[clamp(6rem,30vw,26rem)] font-semibold leading-[0.8] tracking-tighter text-white" />
+        <Logo location="footer" className="mt-20 block" />
 
         <p className="py-8 text-xs">
           &copy; {new Date().getFullYear()} {siteConfig.name}. All rights

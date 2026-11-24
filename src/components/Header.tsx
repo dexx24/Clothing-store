@@ -1,9 +1,9 @@
-import Link from 'next/link';
-import { Search } from 'lucide-react';
-import CartButton from './CartButton';
-import ContactPanel from './ContactPanel';
-import Logo from './Logo';
-import MenuPanel from './MenuPanel';
+import Link from "next/link";
+import { Search } from "lucide-react";
+import CartButton from "./CartButton";
+import ContactPanel from "./ContactPanel";
+import Logo from "./Logo";
+import MenuPanel from "./MenuPanel";
 
 export default function Header() {
   return (
@@ -14,11 +14,14 @@ export default function Header() {
           <ContactPanel />
         </div>
 
-        <Logo />
+        <Logo location="header" />
 
         <div className="flex items-center justify-end md:gap-2">
           <CartButton />
-          <Link href="/search" className="flex items-center gap-2 p-2 text-sm font-medium hover:text-neutral-500">
+          <Link
+            href="/search"
+            className="flex items-center gap-2 p-2 text-sm font-medium hover:text-neutral-500"
+          >
             <Search size={20} strokeWidth={1.5} aria-hidden />
             <span className="sr-only">Search</span>
           </Link>

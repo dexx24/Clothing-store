@@ -9,7 +9,7 @@ export const PLACEHOLDER_PREFIX = 'REPLACE_';
 export const isPlaceholder = (value: string) => value.startsWith(PLACEHOLDER_PREFIX);
 
 export const siteConfig = {
-  name: 'Nove',
+  name: 'JK DressMe',
 
   contact: {
     phone: '+2349029955629', // e.g. '+234 800 000 0000'
@@ -58,14 +58,14 @@ export const homeImages = {
   closing: '/images/home-closing.jpg', // "Find your next favorite." banner
   // Category tile backgrounds, keyed by category slug. Categories not listed here stay plain.
   categories: {
-    tops: '/images/category-tops.jpg',
-    bottoms: '/images/category-bottoms.jpg',
+    tops: 'https://jolfonkslifjutyglvdd.supabase.co/storage/v1/object/public/products/top.jpg',
+    bottoms: 'https://jolfonkslifjutyglvdd.supabase.co/storage/v1/object/public/products/greendenim2.jpg',
   } as Record<string, string>,
 } as const;
 
 /** Stock placeholders (picsum.photos). Delete or replace once you add your own photos. */
 export const placeholderImages = {
-  closing: 'https://picsum.photos/seed/nove-closing/2400/1400',
+  closing: 'https://jolfonkslifjutyglvdd.supabase.co/storage/v1/object/public/products/sweatsa2.jpg',
   categories: {
     tops: 'https://picsum.photos/seed/nove-tops/1200/800',
     bottoms: 'https://picsum.photos/seed/nove-bottoms/1200/800',

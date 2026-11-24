@@ -74,7 +74,7 @@ export default async function HomePage() {
             <Link
               key={c.id}
               href={`/shop?category=${c.slug}`}
-              className="group relative flex h-64 items-end overflow-hidden bg-neutral-700 bg-cover bg-center p-6 text-3xl font-medium tracking-tight text-white md:h-80"
+              className="group relative flex aspect-[3/4] items-end overflow-hidden bg-neutral-700 bg-cover bg-center p-6 text-3xl font-medium tracking-tight text-white md:aspect-[8/9]"
               style={{
                 backgroundImage: backdrop(
                   null,

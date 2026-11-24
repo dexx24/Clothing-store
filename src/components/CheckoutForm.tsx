@@ -1,20 +1,36 @@
-'use client';
+"use client";
 
-import { useEffect, useState, useTransition, type FormEvent } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { selectSubtotal, useCart } from '@/store/cart';
-import { formatPrice } from '@/lib/format';
-import { placeOrder } from '@/app/checkout/actions';
+import { useEffect, useState, useTransition, type FormEvent } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { selectSubtotal, useCart } from "@/store/cart";
+import { formatPrice } from "@/lib/format";
+import { CheckoutSkeleton } from "@/components/Skeleton";
+import { placeOrder } from "@/app/checkout/actions";
 
 const FIELDS = [
-  { name: 'email', label: 'Email', type: 'email', autoComplete: 'email' },
-  { name: 'fullName', label: 'Full name', type: 'text', autoComplete: 'name' },
-  { name: 'address', label: 'Address', type: 'text', autoComplete: 'street-address' },
-  { name: 'city', label: 'City', type: 'text', autoComplete: 'address-level2' },
-  { name: 'postalCode', label: 'Postal code', type: 'text', autoComplete: 'postal-code' },
-  { name: 'country', label: 'Country', type: 'text', autoComplete: 'country-name' },
+  { name: "email", label: "Email", type: "email", autoComplete: "email" },
+  { name: "fullName", label: "Full name", type: "text", autoComplete: "name" },
+  {
+    name: "address",
+    label: "Address",
+    type: "text",
+    autoComplete: "street-address",
+  },
+  { name: "city", label: "City", type: "text", autoComplete: "address-level2" },
+  {
+    name: "postalCode",
+    label: "Postal code",
+    type: "text",
+    autoComplete: "postal-code",
+  },
+  {
+    name: "country",
+    label: "Country",
+    type: "text",
+    autoComplete: "country-name",
+  },
 ] as const;
 
 export default function CheckoutForm() {
@@ -23,14 +39,14 @@ export default function CheckoutForm() {
   const subtotal = useCart(selectSubtotal);
   const clear = useCart((s) => s.clear);
   const [ready, setReady] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [pending, startTransition] = useTransition();
 
   useEffect(() => {
     Promise.resolve(useCart.persist.rehydrate()).then(() => setReady(true));
   }, []);
 
-  if (!ready) return <div className="h-96" aria-busy />;
+  if (!ready) return <CheckoutSkeleton />;
 
   if (items.length === 0) {
     return (
@@ -45,18 +61,18 @@ export default function CheckoutForm() {
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setError('');
+    setError("");
     const f = new FormData(e.currentTarget);
-    const get = (k: string) => String(f.get(k) ?? '');
+    const get = (k: string) => String(f.get(k) ?? "");
 
     startTransition(async () => {
       const res = await placeOrder({
-        email: get('email'),
-        fullName: get('fullName'),
-        address: get('address'),
-        city: get('city'),
-        postalCode: get('postalCode'),
-        country: get('country'),
+        email: get("email"),
+        fullName: get("fullName"),
+        address: get("address"),
+        city: get("city"),
+        postalCode: get("postalCode"),
+        country: get("country"),
         items: items.map((i) => ({
           productId: i.productId,
           quantity: i.quantity,
@@ -65,7 +81,7 @@ export default function CheckoutForm() {
         })),
       });
       if (res.error || !res.orderId) {
-        setError(res.error ?? 'Something went wrong.');
+        setError(res.error ?? "Something went wrong.");
         return;
       }
       clear();
@@ -99,7 +115,9 @@ export default function CheckoutForm() {
           disabled={pending}
           className="mt-2 bg-neutral-900 py-3.5 text-sm text-white hover:bg-neutral-700 disabled:opacity-50"
         >
-          {pending ? 'Placing order...' : `Place order, ${formatPrice(subtotal)}`}
+          {pending
+            ? "Placing order..."
+            : `Place order, ${formatPrice(subtotal)}`}
         </button>
       </form>
 
@@ -109,15 +127,24 @@ export default function CheckoutForm() {
           {items.map((item) => (
             <li key={item.key} className="flex gap-4 py-4 text-sm">
               <div className="relative aspect-[4/5] w-16 shrink-0 bg-neutral-200">
-                <Image src={item.image} alt="" fill sizes="64px" className="object-cover" />
+                <Image
+                  src={item.image}
+                  alt=""
+                  fill
+                  sizes="64px"
+                  className="object-cover"
+                />
               </div>
               <div className="flex-1">
                 <p className="font-medium">{item.name}</p>
                 <p className="text-neutral-500">
-                  {[item.color, item.size].filter(Boolean).join(' / ')} &times; {item.quantity}
+                  {[item.color, item.size].filter(Boolean).join(" / ")} &times;{" "}
+                  {item.quantity}
                 </p>
               </div>
-              <p className="tabular-nums">{formatPrice(item.priceCents * item.quantity)}</p>
+              <p className="tabular-nums">
+                {formatPrice(item.priceCents * item.quantity)}
+              </p>
             </li>
           ))}
         </ul>
